@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standby</title>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-color:black;
+            color:white;
+            font-family: "Ubuntu", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+            transition:0.5s;
+        }
+
+        #clock{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            width:70vw;
+            height:22vw;
+           /*border:red solid;*/
+            display:flex;
+            flex-direction: row;
+            gap:3vw;
+            justify-content:center;
+            align-items:center;
+            font-size:12vw;
+        }
+        #weer{
+            position:absolute;
+            top:10%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            font-size:10vw;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="weer"></h1>
+    <div id="clock">
+    <h1 id="uren">14</h1>
+    <h1>:</h1>
+    <h1 id="minuten">14</h1>
+</div>
+
+<script>
+    var klok = new Date();
+    var uur = klok.getHours();
+    var min = klok.getMinutes();
+
+    function updateklok(){
+        var klok = new Date();
+        var uur = klok.getHours();
+        var min = klok.getMinutes();
+        var kleur = (min/60)*360;
+
+        document.body.style.backgroundColor = `hsl(${kleur}, 44%, 42%)`;
+        document.getElementById("uren").innerHTML = uur;
+        document.getElementById("minuten").innerHTML = min;
+    }
+    updateklok();
+    setInterval(updateklok, 1000);
+
+    function weer(){
+    const requestOptions = {
+     method: "GET",
+     redirect: "follow"
+    };
+
+    fetch("https://wttr.in/Deinze?format=j1", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+        var graden = result.current_condition[0].temp_C;
+        document.getElementById("weer").innerHTML = graden + "°"    
+    })
+    .catch((error) => console.error(error));
+    }
+    weer()
+    setInterval(weer, 300000)
+</script>
+</body>
+</html>
