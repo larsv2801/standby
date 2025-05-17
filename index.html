@@ -62,6 +62,9 @@
         var min = klok.getMinutes();
         var kleur = (min/60)*360;
 
+        if (uur < 10) uur = "0" + uur;
+        if (min < 10) min = "0" + min;
+
         document.body.style.backgroundColor = `hsl(${kleur}, 44%, 42%)`;
         document.getElementById("uren").innerHTML = uur;
         document.getElementById("minuten").innerHTML = min;
